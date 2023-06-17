@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "707862758039",
-    "project_id": "blue-ags",
-    "storage_bucket": "blue-ags.appspot.com"
+    "project_number": "211807649198",
+    "project_id": "flutter--application",
+    "storage_bucket": "flutter--application.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:707862758039:android:27cbc1c05e0e87ea1d9fd2",
+        "mobilesdk_app_id": "1:211807649198:android:2850811c96fd6cca565c3f",
         "android_client_info": {
-          "package_name": "com.example.blue"
+          "package_name": "com.example.flutter_application"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDDoCsruDQfyqNzKDVCkRbfZCIYkFy5mTI"
+          "current_key": "AIzaSyAZGnKVamX-AaBJT7BalAOHX5vIqpg7kaM"
         }
       ],
       "services": {
