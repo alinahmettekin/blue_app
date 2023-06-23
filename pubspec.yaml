@@ -39,12 +39,16 @@ dev_dependencies:
   firebase_storage: ^11.2.1
   flutter_animate: ^4.1.1+1
   flutter_lints: ^2.0.0
+  flutter_staggered_grid_view: ^0.6.2
   flutter_svg: ^2.0.6
   flutter_test:
     sdk: flutter
+  grid_staggered_lite: ^0.0.6
   image_picker: ^0.8.7+5
   intl: ^0.18.1
   provider: ^6.0.5
+  snap: ^2.0.0
+  staggered_grid_view_flutter: ^0.0.4
   uuid: ^3.0.7
 
 # For information on the generic Dart part of this file, see the
