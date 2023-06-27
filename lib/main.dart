@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-          return const MobileScreenLayout();
+          return const LoginScreen();
         }),
       ),
     );

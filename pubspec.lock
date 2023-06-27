@@ -185,6 +185,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.6.1"
+  flick:
+    dependency: transitive
+    description:
+      name: flick
+      sha256: c53357838b10964050e91908788b3b279c1df7d253c6b93de45114fd54efee8d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -214,6 +222,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.15"
+  flutter_staggered_grid_view:
+    dependency: "direct dev"
+    description:
+      name: flutter_staggered_grid_view
+      sha256: "1312314293acceb65b92754298754801b0e1f26a1845833b740b30415bbbcf07"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.2"
   flutter_svg:
     dependency: "direct dev"
     description:
@@ -232,6 +248,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  grid_staggered_lite:
+    dependency: "direct dev"
+    description:
+      name: grid_staggered_lite
+      sha256: "234901d012b80f79ed29c383a413b4d8cb1f2b126b76a3b6bc96afed12139518"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   http:
     dependency: transitive
     description:
@@ -389,6 +413,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  snap:
+    dependency: "direct dev"
+    description:
+      name: snap
+      sha256: "4d09824a3bd96ee1d9421ee88800f1078f32ba8f5593f269cc77d0cf03c5c668"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   source_span:
     dependency: transitive
     description:
@@ -405,6 +437,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  staggered_grid_view_flutter:
+    dependency: "direct dev"
+    description:
+      name: staggered_grid_view_flutter
+      sha256: d46b27d1b57344945edf9eadbd5ee03a667a6599fd87e79f9a2d5e717e6accf3
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   stream_channel:
     dependency: transitive
     description:
