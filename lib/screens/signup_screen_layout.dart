@@ -108,7 +108,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           : const CircleAvatar(
                               radius: 64,
                               backgroundImage: NetworkImage(
-                                  'https://www.google.com.tr/imgres?imgurl=https%3A%2F%2Fwww.seblod.com%2Fimages%2Fmedias%2F62057%2F_thumb2%2F2205256774854474505_medium.jpg&tbnid=LcF8BP6P40JNCM&vet=12ahUKEwjFlICMk5r_AhWZkqQKHWoIAdEQMygAegUIARCqAQ..i&imgrefurl=https%3A%2F%2Fwww.seblod.com%2Fcommunity%2Fforums%2Fforms-content-types%2Fdefault-image-upload&docid=H2oMTs7rjZRRWM&w=247&h=247&q=default%20upload%20image&ved=2ahUKEwjFlICMk5r_AhWZkqQKHWoIAdEQMygAegUIARCqAQ'),
+                                  'https://static.vecteezy.com/system/resources/previews/008/442/086/original/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg'),
                             ),
                       Positioned(
                         bottom: -10,
