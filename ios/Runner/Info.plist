@@ -42,10 +42,15 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<true/> 
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library Usage</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Mic Usage</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Privacy Camera Usage</string>
 </dict>
 </plist>
+
+

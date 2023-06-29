@@ -15,7 +15,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CommentsScreen extends StatefulWidget {
   final snap;
 
-  const CommentsScreen({Key? key, required this.snap}) : super(key: key);
+  const CommentsScreen({Key? key, required this.snap, required String postId})
+      : super(key: key);
 
   @override
   _CommentsScreenState createState() => _CommentsScreenState();

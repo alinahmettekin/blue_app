@@ -10,8 +10,14 @@ class UserProvider with ChangeNotifier {
 
   User get getUser => _user!;
 
+  String? get uid => null;
+
+  String? get username => null;
+
+  String? get photoUrl => null;
+
   Future<void> refereshUser() async {
-    User user = await _authMethods.getUserDetails();
+    User user = (await _authMethods.getUserDetails()) as User;
 
     _user = user;
 

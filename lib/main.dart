@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   if (kIsWeb) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -37,33 +38,40 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (_) => UserProvider(),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
-        theme: ThemeData.dark().copyWith(
-          scaffoldBackgroundColor: mobileBackgroundColor,
-        ),
-        home: StreamBuilder(builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.active) {
-            return const ResponsiveLayout(
-              mobileScreenLayout: MobileScreenLayout(),
-              webScreenLayout: WebScreenLayout(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: primaryColor,
-              ),
-            );
-          }
-          return const LoginScreen();
-        }),
-      ),
-    );
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => UserProvider(),
+          ),
+        ],
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Blue',
+            theme: ThemeData.dark().copyWith(
+              scaffoldBackgroundColor: mobileBackgroundColor,
+            ),
+            home: StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.active) {
+                    // cheking if the snapshot has any data or not
+                    if (snapshot.hasData) {
+                      return const ResponsiveLayout(
+                        mobileScreenLayout: MobileScreenLayout(),
+                        webScreenLayout: WebScreenLayout(),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text('${snapshot.error}'),
+                      );
+                    }
+                  }
+                  // means connection to future hasnt been made yet
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return const LoginScreen();
+                })));
   }
 }

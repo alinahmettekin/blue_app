@@ -4,6 +4,7 @@ import 'package:flutter_application/utils/colors.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_application/utils/global_variables.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:staggered_grid_view_flutter/staggered_grid_view_flutter.dart';
 import 'package:grid_staggered_lite/grid_staggered_lite.dart';
@@ -78,26 +79,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       );
                     });
               })
-          : FutureBuilder(
+          : FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
               future: FirebaseFirestore.instance.collection('posts').get(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return const Center(
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-
-                return StaggeredGridView.countBuilder(
-                    crossAxisCount: 3,
-                    itemCount: (snapshot.data! as dynamic).docs.length,
-                    itemBuilder: (context, index) => Image.network(
-                        (snapshot.data! as dynamic).docs[index]['postUrl']),
-                    staggeredTileBuilder: (index) {
-                      StaggeredTile.count(
-                        (index % 7 == 0) ? 2 : 1,
-                        (index % 7 == 0) ? 2 : 1,
-                      );
-                    });
+                return MasonryGridView.count(
+                  crossAxisCount: 3,
+                  itemCount: (snapshot.data! as dynamic).docs.length,
+                  itemBuilder: (context, index) => Image.network(
+                    (snapshot.data! as dynamic).docs[index]['postUrl'],
+                    fit: BoxFit.cover,
+                  ),
+                  mainAxisSpacing: 8.0,
+                  crossAxisSpacing: 8.0,
+                );
               },
             ),
     );

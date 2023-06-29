@@ -28,7 +28,7 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -46,6 +46,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   getData() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
@@ -66,13 +69,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       isFollowing = userSnap
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
-
-      setState(() {});
     } catch (e) {
-      showSnackBar(
-        context as String,
-        e.toString() as BuildContext,
-      );
+      showSnackBar(context as String, e.toString() as BuildContext);
     }
     setState(() {
       isLoading = false;

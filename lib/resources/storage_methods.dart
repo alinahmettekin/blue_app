@@ -18,12 +18,10 @@ class StorageMethods {
 
     if (isPost) {
       String id = const Uuid().v1();
-      ref.child(id);
+      ref = ref.child(id);
     }
 
     UploadTask uploadTask = ref.putData(file);
-
-    await uploadTask;
 
     TaskSnapshot snap = await uploadTask;
 

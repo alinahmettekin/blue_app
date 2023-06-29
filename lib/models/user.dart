@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -13,15 +9,34 @@ class User {
   final List followers;
   final List following;
 
-  const User({
-    required this.email,
-    required this.uid,
-    required this.photoUrl,
-    required this.username,
-    required this.bio,
-    required this.followers,
-    required this.following,
-  });
+  const User(
+      {required this.username,
+      required this.uid,
+      required this.photoUrl,
+      required this.email,
+      required this.bio,
+      required this.followers,
+      required this.following});
+
+  static User fromSnapshot(DocumentSnapshot snapshot) {
+    if (snapshot != null) {
+      var data = snapshot.data() as Map<String, dynamic>?;
+
+      if (data != null) {
+        return User(
+          username: data["username"],
+          uid: data["uid"],
+          email: data["email"],
+          photoUrl: data["photoUrl"],
+          bio: data["bio"],
+          followers: data["followers"],
+          following: data["following"],
+        );
+      }
+    }
+
+    throw Exception('Snapshot data is null');
+  }
 
   Map<String, dynamic> toJson() => {
         "username": username,
@@ -32,17 +47,4 @@ class User {
         "followers": followers,
         "following": following,
       };
-
-  static User fromSnap(DocumentSnapshot snap) {
-    var snapshot = snap.data() as Map<String, dynamic>;
-    return User(
-      username: snapshot['username'],
-      uid: snapshot['uid'],
-      email: snapshot['email'],
-      photoUrl: snapshot['photoUrl'],
-      bio: snapshot['bio'],
-      followers: snapshot['followers'],
-      following: snapshot['following'],
-    );
-  }
 }

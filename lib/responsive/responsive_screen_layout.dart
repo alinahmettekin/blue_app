@@ -26,6 +26,7 @@ class _ResponsiveLayoutState extends State<ResponsiveLayout> {
 
   addData() async {
     UserProvider _userProvider = Provider.of(context, listen: false);
+
     await _userProvider.refereshUser();
   }
 

@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter/material.dart';
+import "package:cloud_firestore/cloud_firestore.dart";
+
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/models/user.dart';
@@ -24,50 +26,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   bool _isLoading = false;
 
-  void postImage(
-    String uid,
-    String username,
-    String profImage,
-  ) async {
-    setState(() {
-      _isLoading = true;
-    });
-    try {
-      String res = await FirestoreMethods().uploadPost(
-        _descriptionController.text,
-        _file!,
-        uid,
-        username,
-        profImage,
-      );
-
-      if (res == "success") {
-        setState(() {
-          _isLoading = false;
-        });
-        showSnackBar('Posted !', context);
-        clearImage();
-      } else {
-        setState(() {
-          _isLoading = false;
-        });
-        showSnackBar(res, context);
-      }
-    } catch (e) {
-      showSnackBar(e.toString(), context);
-    }
-  }
-
-  _selectImage(BuildContext context) async {
+  _selectImage(BuildContext parentContext) async {
     return showDialog(
-        context: context,
+        context: parentContext,
         builder: (context) {
           return SimpleDialog(title: const Text('Create a post'), children: [
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
               child: const Text('Take a photo'),
               onPressed: () async {
-                Navigator.of(context).pop();
+                Navigator.of(context);
                 Uint8List file = await pickImage(
                   ImageSource.camera,
                 );
@@ -92,12 +60,53 @@ class _AddPostScreenState extends State<AddPostScreen> {
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
               child: const Text('Cancel '),
-              onPressed: () async {
-                Navigator.of(context).pop();
+              onPressed: () {
+                Navigator.of(context);
               },
             )
           ]);
         });
+  }
+
+  void postImage(String uid, String username, String profImage) async {
+    setState(() {
+      _isLoading = true;
+    });
+    // start the loading
+    try {
+      // upload to storage and db
+      String res = await FirestoreMethods().uploadPost(
+        _descriptionController.text,
+        _file!,
+        uid,
+        username,
+        profImage,
+      );
+      if (res == "success") {
+        setState(() {
+          _isLoading = false;
+        });
+        if (context.mounted) {
+          showSnackBar(
+            context as String,
+            'Posted!' as BuildContext,
+          );
+        }
+        clearImage();
+      } else {
+        if (context.mounted) {
+          showSnackBar(context as String, res as BuildContext);
+        }
+      }
+    } catch (err) {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(
+        context as String,
+        err.toString() as BuildContext,
+      );
+    }
   }
 
   void clearImage() {
@@ -108,14 +117,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _descriptionController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final User user = Provider.of<UserProvider>(context).getUser;
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return _file == null
         ? Center(
@@ -137,9 +145,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 actions: [
                   TextButton(
                     onPressed: () => postImage(
-                      user.uid,
-                      user.username,
-                      user.photoUrl,
+                      userProvider.getUser.uid,
+                      userProvider.getUser.username,
+                      userProvider.getUser.photoUrl,
                     ),
                     child: const Text(
                       'Post',
@@ -164,12 +172,13 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 children: [
                   CircleAvatar(
                     backgroundImage: NetworkImage(
-                      user.photoUrl,
+                      userProvider.getUser.photoUrl,
                     ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
                     child: TextField(
+                      controller: _descriptionController,
                       decoration: const InputDecoration(
                         hintText: 'Write a caption ...',
                         border: InputBorder.none,
@@ -185,9 +194,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
                           child: Container(
                             decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: MemoryImage(_file!),
                                 fit: BoxFit.fill,
                                 alignment: FractionalOffset.topCenter,
+                                image: MemoryImage(_file!),
                               ),
                             ),
                           ))),
