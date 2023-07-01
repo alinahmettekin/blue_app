@@ -1,16 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/models/user.dart';
+import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/resources/firestore_methods.dart';
 import 'package:flutter_application/screens/comments_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
-import 'package:flutter_application/utils/global_variables.dart';
+import 'package:flutter_application/utils/global_variable.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/like_animation.dart';
-import 'package:flutter_application/models/user.dart';
-import 'package:flutter_application/providers/user_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
   final snap;
@@ -28,6 +27,11 @@ class _PostCardState extends State<PostCard> {
   void initState() {
     super.initState();
     fetchCommentLen();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   fetchCommentLen() async {
@@ -164,7 +168,7 @@ class _PostCardState extends State<PostCard> {
               alignment: Alignment.center,
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.35,
+                  height: MediaQuery.of(context).size.height * 0.5,
                   width: double.infinity,
                   child: Image.network(
                     widget.snap['postUrl'],
@@ -224,7 +228,6 @@ class _PostCardState extends State<PostCard> {
                   MaterialPageRoute(
                     builder: (context) => CommentsScreen(
                       postId: widget.snap['postId'].toString(),
-                      snap: null,
                     ),
                   ),
                 ),
@@ -284,7 +287,7 @@ class _PostCardState extends State<PostCard> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
-                      'View all $commentLen comments',
+                      '$commentLen yorumu görüntüle',
                       style: const TextStyle(
                         fontSize: 16,
                         color: secondaryColor,
@@ -295,7 +298,6 @@ class _PostCardState extends State<PostCard> {
                     MaterialPageRoute(
                       builder: (context) => CommentsScreen(
                         postId: widget.snap['postId'].toString(),
-                        snap: null,
                       ),
                     ),
                   ),

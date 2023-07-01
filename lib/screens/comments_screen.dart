@@ -1,120 +1,127 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/firestore_methods.dart';
-import 'package:flutter_application/utils/colors.dart';
-import 'package:flutter_application/providers/user_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:provider/src/provider.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_application/providers/user_provider.dart';
-import 'package:provider/provider.dart';
-import 'package:flutter_application/widgets/comment_card.dart';
-import 'package:flutter_application/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application/models/user.dart';
+import 'package:flutter_application/providers/user_provider.dart';
+import 'package:flutter_application/resources/firestore_methods.dart';
+import 'package:flutter_application/utils/utils.dart';
+import 'package:flutter_application/widgets/comment_card.dart';
+import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {
-  final snap;
-
-  const CommentsScreen({Key? key, required this.snap, required String postId})
-      : super(key: key);
+  final postId;
+  const CommentsScreen({Key? key, required this.postId}) : super(key: key);
 
   @override
   _CommentsScreenState createState() => _CommentsScreenState();
 }
 
 class _CommentsScreenState extends State<CommentsScreen> {
-  final TextEditingController _commentController = TextEditingController();
+  final TextEditingController commentEditingController =
+      TextEditingController();
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _commentController.dispose();
+  void postComment(String uid, String name, String profilePic) async {
+    try {
+      String res = await FirestoreMethods().postComment(
+        widget.postId,
+        commentEditingController.text,
+        uid,
+        name,
+        profilePic,
+      );
+
+      if (res != 'success') {
+        if (context.mounted)
+          showSnackBar(context as String, res as BuildContext);
+      }
+      setState(() {
+        commentEditingController.text = "";
+      });
+    } catch (err) {
+      showSnackBar(
+        context as String,
+        err.toString() as BuildContext,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).getUser;
+    final User user = Provider.of<UserProvider>(context).getUser;
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mobileBackgroundColor,
-        title: const Text('comments'),
+        backgroundColor: const Color.fromARGB(255, 112, 99, 99),
+        title: const Text(
+          'Yorumlar',
+        ),
         centerTitle: false,
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('posts')
-              .doc(widget.snap['postId'])
-              .collection('comments')
-              .orderBy('datePublished', descending: true)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            return ListView.builder(
-              itemCount: (snapshot.data! as dynamic).docs.length,
-              itemBuilder: (context, index) => CommentCard(
-                snap: (snapshot.data! as dynamic).docs[index].data(),
-              ),
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.postId)
+            .collection('comments')
+            .snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }),
+          }
+
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (ctx, index) => CommentCard(
+              snap: snapshot.data!.docs[index],
+            ),
+          );
+        },
+      ),
+      // text input
       bottomNavigationBar: SafeArea(
-          child: Container(
-              height: kToolbarHeight,
-              margin: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom,
+        child: Container(
+          height: kToolbarHeight,
+          margin:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          padding: const EdgeInsets.only(left: 16, right: 8),
+          child: Row(
+            children: [
+              CircleAvatar(
+                backgroundImage: NetworkImage(user.photoUrl),
+                radius: 18,
               ),
-              padding: const EdgeInsets.only(left: 16, right: 8),
-              child: Row(children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    user.photoUrl,
-                  ),
-                  radius: 18,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 8.0),
-                    child: TextField(
-                      controller: _commentController,
-                      decoration: InputDecoration(
-                        hintText: 'Comment as ${user.username}',
-                        border: InputBorder.none,
-                      ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 8),
+                  child: TextField(
+                    controller: commentEditingController,
+                    decoration: InputDecoration(
+                      hintText: ' ${user.username} olarak yorum yap',
+                      border: InputBorder.none,
                     ),
                   ),
                 ),
-                InkWell(
-                    onTap: () async {
-                      await FirestoreMethods().postComment(
-                        widget.snap['postId'],
-                        _commentController.text,
-                        widget.snap['text'],
-                        user.uid,
-                        user.username,
-                        user.photoUrl,
-                      );
-                      setState(() {
-                        _commentController.text = "";
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 8,
-                      ),
-                      child: const Text(
-                        'Post',
-                        style: TextStyle(
-                          color: Colors.blueAccent,
-                        ),
-                      ),
-                    ))
-              ]))),
+              ),
+              InkWell(
+                onTap: () => postComment(
+                  user.uid,
+                  user.username,
+                  user.photoUrl,
+                ),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  child: const Text(
+                    'Gönder',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

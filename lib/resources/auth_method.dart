@@ -1,23 +1,21 @@
 import 'dart:typed_data';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:flutter_application/models/user.dart' as model;
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_application/models/user.dart' as model;
 import 'package:flutter_application/resources/storage_methods.dart';
 
 class AuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<model.User> getUserDetails() async {
     User currentUser = _auth.currentUser!;
 
-    DocumentSnapshot snap =
-        await _firestore.collection('posts').doc(currentUser.uid).get();
+    DocumentSnapshot documentSnapshot =
+        await _firestore.collection('users').doc(currentUser.uid).get();
 
-    return model.User.fromSnapshot(snap);
+    return model.User.fromSnapshot(documentSnapshot);
   }
 
   // sign up user
@@ -43,16 +41,16 @@ class AuthMethods {
         String photoUrl = await StorageMethods()
             .uploadImageToStorage('profilePics', file, false);
 
-        // add user to our database
+        // adding user on firebase database for our collection rules-aat
 
         model.User user = model.User(
           username: username,
           uid: cred.user!.uid,
+          photoUrl: photoUrl,
           email: email,
           bio: bio,
-          photoUrl: photoUrl,
-          following: [],
           followers: [],
+          following: [],
         );
 
         await _firestore
@@ -65,7 +63,7 @@ class AuthMethods {
         res = "Please enter all the fields";
       }
     } catch (err) {
-      res = err.toString();
+      return err.toString();
     }
     return res;
   }
@@ -80,7 +78,9 @@ class AuthMethods {
       if (email.isNotEmpty || password.isNotEmpty) {
         // logging in user with email and password
         await _auth.signInWithEmailAndPassword(
-            email: email, password: password);
+          email: email,
+          password: password,
+        );
         res = "success";
       } else {
         res = "Please enter all the fields";

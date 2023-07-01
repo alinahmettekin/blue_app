@@ -1959,6 +1959,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 async
 collection
+mime
 stream_channel
 typed_data
 
@@ -4764,10 +4765,17 @@ firebase_storage
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------------
 cross_file
+file_selector_linux
+file_selector_macos
+file_selector_platform_interface
+file_selector_windows
 flutter_lints
 flutter_plugin_android_lifecycle
 image_picker_for_web
+image_picker_linux
+image_picker_macos
 image_picker_platform_interface
+image_picker_windows
 plugin_platform_interface
 vector_graphics
 vector_graphics_codec

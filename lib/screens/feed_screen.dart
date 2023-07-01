@@ -1,10 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/firestore_methods.dart';
-import 'package:flutter_application/utils/global_variables.dart';
+import 'package:flutter_application/utils/colors.dart';
+import 'package:flutter_application/utils/global_variable.dart';
 import 'package:flutter_application/widgets/post_card.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_svg/svg.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -25,12 +24,13 @@ class _FeedScreenState extends State<FeedScreen> {
       appBar: width > webScreenSize
           ? null
           : AppBar(
-              backgroundColor: mobileBackgroundColor,
-              centerTitle: false,
+              backgroundColor: Color.fromARGB(255, 56, 55, 55),
+              centerTitle: true,
+              toolbarHeight: 50,
               title: SvgPicture.asset(
                 'assets/blue-removebg-preview.svg',
-                color: primaryColor,
-                height: 32,
+                color: Colors.white,
+                height: 50,
               ),
               actions: [
                   IconButton(
@@ -47,13 +47,13 @@ class _FeedScreenState extends State<FeedScreen> {
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.hasData &&
                 snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
             if (!snapshot.hasData || snapshot.data == null) {
-              return Center(
-                child: Text(" veriyok null"),
+              return const Center(
+                child: Text("Yükleniyor..."),
               );
             }
             final data = snapshot.data!;

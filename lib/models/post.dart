@@ -1,7 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Post {
@@ -9,10 +5,10 @@ class Post {
   final String uid;
   final String username;
   final String postId;
-  final datePublished;
+  final DateTime datePublished;
   final String postUrl;
   final String profImage;
-  final likes;
+  final dynamic likes;
 
   const Post({
     required this.description,
@@ -29,15 +25,14 @@ class Post {
     var snapshot = snap.data() as Map<String, dynamic>;
 
     return Post(
-      username: snapshot['username'],
-      uid: snapshot['uid'],
-      postId: snapshot['postId'],
-      profImage: snapshot['profImage'],
-      description: snapshot['description'],
-      datePublished: snapshot['datePublished'],
-      likes: snapshot['profImage'],
-      postUrl: snapshot['postUrl'],
-    );
+        description: snapshot["description"],
+        uid: snapshot["uid"],
+        likes: snapshot["likes"],
+        postId: snapshot["postId"],
+        datePublished: snapshot["datePublished"],
+        username: snapshot["username"],
+        postUrl: snapshot['postUrl'],
+        profImage: snapshot['profImage']);
   }
 
   Map<String, dynamic> toJson() => {

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/auth_method.dart';
+import 'package:flutter_application/resources/auth_methods.dart';
 import 'package:flutter_application/responsive/mobile_screen_layout.dart';
 import 'package:flutter_application/responsive/responsive_screen_layout.dart';
 import 'package:flutter_application/responsive/web_screen_layout.dart';
-
 import 'package:flutter_application/screens/signup_screen_layout.dart';
 import 'package:flutter_application/utils/colors.dart';
-import 'package:flutter_application/utils/global_variables.dart';
+import 'package:flutter_application/utils/global_variable.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/text_field_input.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_application/screens/signup_screen_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -72,7 +70,6 @@ class _LoginScreenState extends State<LoginScreen> {
               : const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(child: Container(), flex: 2),
               SvgPicture.asset(
@@ -82,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 64),
               TextFieldInput(
-                hintText: 'Enter your email',
+                hintText: 'Email',
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _emailController,
               ),
@@ -90,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your password',
+                hintText: 'Parola',
                 textInputType: TextInputType.text,
                 textEditingController: _passwordController,
                 isPass: true,
@@ -115,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: !isLoading
                       ? const Text(
-                          'Log in',
+                          'Giriş Yap',
                         )
                       : const CircularProgressIndicator(
                           color: primaryColor,
@@ -135,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text(
-                      'Dont have an account?',
+                      'Henüz hesabınız yok mu?',
                     ),
                   ),
                   GestureDetector(
@@ -147,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        ' Signup.',
+                        ' Kayıt Ol.',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),

@@ -1,14 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/responsive/mobile_screen_layout.dart';
 import 'package:flutter_application/responsive/responsive_screen_layout.dart';
 import 'package:flutter_application/responsive/web_screen_layout.dart';
-import 'package:flutter_application/screens/login_screen_layout.dart';
-import 'package:flutter_application/screens/signup_screen_layout.dart';
+import 'package:flutter_application/screens/login_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
 void main() async {

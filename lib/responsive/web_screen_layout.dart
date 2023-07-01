@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/utils/global_variable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_application/utils/global_variables.dart';
 
 import '../utils/colors.dart';
 

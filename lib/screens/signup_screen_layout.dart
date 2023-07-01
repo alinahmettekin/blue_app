@@ -1,12 +1,11 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/auth_method.dart';
+import 'package:flutter_application/resources/auth_methods.dart';
 import 'package:flutter_application/responsive/mobile_screen_layout.dart';
 import 'package:flutter_application/responsive/responsive_screen_layout.dart';
 import 'package:flutter_application/responsive/web_screen_layout.dart';
-import 'package:flutter_application/screens/login_screen_layout.dart';
-
+import 'package:flutter_application/screens/login_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/text_field_input.dart';
@@ -135,7 +134,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your username',
+                hintText: 'Kullanıcı Adı',
                 textInputType: TextInputType.text,
                 textEditingController: _usernameController,
               ),
@@ -143,7 +142,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your email',
+                hintText: 'Email',
                 textInputType: TextInputType.emailAddress,
                 textEditingController: _emailController,
               ),
@@ -151,7 +150,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your password',
+                hintText: 'Parola',
                 textInputType: TextInputType.text,
                 textEditingController: _passwordController,
                 isPass: true,
@@ -160,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 height: 24,
               ),
               TextFieldInput(
-                hintText: 'Enter your bio',
+                hintText: 'Hakkında',
                 textInputType: TextInputType.text,
                 textEditingController: _bioController,
               ),
@@ -181,7 +180,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                   child: !_isLoading
                       ? const Text(
-                          'Sign up',
+                          'Kayıt Ol',
                         )
                       : const CircularProgressIndicator(
                           color: primaryColor,
@@ -201,7 +200,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 8),
                     child: const Text(
-                      'Already have an account?',
+                      'Zaten hesabınız var mı?',
                     ),
                   ),
                   GestureDetector(
@@ -213,7 +212,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        ' Sign up.',
+                        ' Giriş Yap ',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
