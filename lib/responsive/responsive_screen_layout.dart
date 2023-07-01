@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/providers/user_provider.dart';
-import 'package:flutter_application/utils/global_variable.dart';
+import 'package:flutter_application/utils/global_variables.dart';
 import 'package:provider/provider.dart';
 
 class ResponsiveLayout extends StatefulWidget {

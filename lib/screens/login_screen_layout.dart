@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/auth_methods.dart';
+import 'package:flutter_application/resources/auth_method.dart';
 import 'package:flutter_application/responsive/mobile_screen_layout.dart';
 import 'package:flutter_application/responsive/responsive_screen_layout.dart';
 import 'package:flutter_application/responsive/web_screen_layout.dart';
 import 'package:flutter_application/screens/signup_screen_layout.dart';
 import 'package:flutter_application/utils/colors.dart';
-import 'package:flutter_application/utils/global_variable.dart';
+import 'package:flutter_application/utils/global_variables.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/text_field_input.dart';
 import 'package:flutter_svg/flutter_svg.dart';

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/resources/firestore_methods.dart';
+import 'package:flutter_application/screens/update_profilepic_screen.dart';
+import 'package:flutter_application/utils/colors.dart';
+import 'package:flutter_application/widgets/follow_button.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -56,6 +59,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
     final String beforeUserName = user.username;
+    final String currentProfPic = user.photoUrl;
 
     return Scaffold(
       appBar: AppBar(
@@ -68,6 +72,40 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              backgroundImage: NetworkImage(
+                currentProfPic,
+              ),
+              radius: 40,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 2,
+                  ),
+                  child: Text("${user.username}"),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                FollowButton(
+                  text: 'Profil resmini güncelle',
+                  backgroundColor: mobileBackgroundColor,
+                  textColor: primaryColor,
+                  borderColor: Color.fromARGB(255, 56, 55, 55),
+                  function: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const UpdateProfilePicScreen(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(
               height: 24,
             ),

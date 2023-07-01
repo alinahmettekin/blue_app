@@ -5,7 +5,7 @@ import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/resources/firestore_methods.dart';
 import 'package:flutter_application/screens/comments_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
-import 'package:flutter_application/utils/global_variable.dart';
+import 'package:flutter_application/utils/global_variables.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/like_animation.dart';
 import 'package:intl/intl.dart';

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/resources/auth_methods.dart';
+import 'package:flutter_application/resources/auth_method.dart';
 import 'package:flutter_application/resources/firestore_methods.dart';
-import 'package:flutter_application/screens/login_screen.dart';
+import 'package:flutter_application/screens/login_screen_layout.dart';
 import 'package:flutter_application/screens/update_profile_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_application/utils/utils.dart';
