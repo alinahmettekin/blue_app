@@ -8,6 +8,10 @@ import 'package:flutter_application/screens/update_profile_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_application/utils/utils.dart';
 import 'package:flutter_application/widgets/follow_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'followers_screen.dart';
+import 'following_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -35,13 +39,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = true;
     });
+
     try {
       var userSnap = await FirebaseFirestore.instance
           .collection('users')
           .doc(widget.uid)
           .get();
 
-      // get post lENGTH
       var postSnap = await FirebaseFirestore.instance
           .collection('posts')
           .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -51,16 +55,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
       userData = userSnap.data()!;
       followers = userSnap.data()!['followers'].length;
       following = userSnap.data()!['following'].length;
+
       isFollowing = userSnap
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
-      setState(() {});
     } catch (e) {
-      showSnackBar(
-        context as String,
-        e.toString() as BuildContext,
-      );
+      showSnackBar(context as String, e.toString() as BuildContext);
     }
+
     setState(() {
       isLoading = false;
     });
@@ -74,10 +76,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           )
         : Scaffold(
             appBar: AppBar(
-              backgroundColor: const Color.fromARGB(255, 112, 99, 99),
-              title: Text(
-                userData['username'],
-              ),
+              backgroundColor: const Color.fromARGB(255, 118, 99, 99),
+              title: Text(userData['username']),
               centerTitle: false,
             ),
             body: ListView(
@@ -90,9 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           CircleAvatar(
                             backgroundColor: Colors.grey,
-                            backgroundImage: NetworkImage(
-                              userData['photoUrl'],
-                            ),
+                            backgroundImage: NetworkImage(userData['photoUrl']),
                             radius: 40,
                           ),
                           Expanded(
@@ -104,9 +102,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
-                                    buildStatColumn(postLen, "posts"),
-                                    buildStatColumn(followers, "followers"),
-                                    buildStatColumn(following, "following"),
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            TextButton(
+                                              child: Text(
+                                                postLen.toString(),
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                              onPressed: () {},
+                                            ),
+                                            Container(width: 8),
+                                            TextButton(
+                                              child: Text(followers.toString(),
+                                                  style:
+                                                      TextStyle(fontSize: 20)),
+                                              onPressed: () =>
+                                                  Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FollowersPage(widget.uid),
+                                                ),
+                                              ),
+                                            ),
+                                            Container(width: 8),
+                                            TextButton(
+                                              child: Text(
+                                                following.toString(),
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                              onPressed: () =>
+                                                  Navigator.of(context).push(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      FollowingPage(widget.uid),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            const Text(
+                                              "gönderi",
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                            Container(width: 18),
+                                            const Text(
+                                              "takipçi",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                            Container(width: 18),
+                                            const Text(
+                                              "takip",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ],
                                 ),
                                 Row(
@@ -115,25 +175,52 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   children: [
                                     FirebaseAuth.instance.currentUser!.uid ==
                                             widget.uid
-                                        ? FollowButton(
-                                            text: 'Çıkış Yap',
-                                            backgroundColor:
-                                                mobileBackgroundColor,
-                                            textColor: primaryColor,
-                                            borderColor:
-                                                Color.fromARGB(255, 56, 55, 55),
-                                            function: () async {
-                                              await AuthMethods().signOut();
-                                              if (context.mounted) {
-                                                Navigator.of(context)
-                                                    .pushReplacement(
+                                        ? Column(
+                                            children: [
+                                              FollowButton(
+                                                text: 'Çıkış Yap',
+                                                backgroundColor:
+                                                    mobileBackgroundColor,
+                                                textColor: primaryColor,
+                                                borderColor:
+                                                    const Color.fromARGB(
+                                                        255, 56, 55, 55),
+                                                function: () async {
+                                                  await AuthMethods().signOut();
+
+                                                  SharedPreferences prefs =
+                                                      await SharedPreferences
+                                                          .getInstance();
+                                                  await prefs.clear();
+
+                                                  if (context.mounted) {
+                                                    Navigator.of(context)
+                                                        .pushReplacement(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const LoginScreen(),
+                                                      ),
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                              FollowButton(
+                                                text: 'Profili Düzenle',
+                                                backgroundColor:
+                                                    mobileBackgroundColor,
+                                                textColor: primaryColor,
+                                                borderColor:
+                                                    const Color.fromARGB(
+                                                        255, 56, 55, 55),
+                                                function: () =>
+                                                    Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const LoginScreen(),
+                                                        const UpdateProfileScreen(),
                                                   ),
-                                                );
-                                              }
-                                            },
+                                                ),
+                                              ),
+                                            ],
                                           )
                                         : isFollowing
                                             ? FollowButton(
@@ -159,11 +246,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               )
                                             : FollowButton(
                                                 text: 'Takip Et',
-                                                backgroundColor: Color.fromARGB(
-                                                    255, 56, 55, 55),
+                                                backgroundColor:
+                                                    const Color.fromARGB(
+                                                        255, 56, 55, 55),
                                                 textColor: Colors.white,
-                                                borderColor: Color.fromARGB(
-                                                    255, 56, 55, 55),
+                                                borderColor:
+                                                    const Color.fromARGB(
+                                                        255, 56, 55, 55),
                                                 function: () async {
                                                   await FirestoreMethods()
                                                       .followUser(
@@ -180,18 +269,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               ),
                                   ],
                                 ),
-                                FollowButton(
-                                  text: 'Profili Düzenle',
-                                  backgroundColor: mobileBackgroundColor,
-                                  textColor: primaryColor,
-                                  borderColor: Color.fromARGB(255, 56, 55, 55),
-                                  function: () => Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const UpdateProfileScreen(),
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -199,9 +276,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(
-                          top: 15,
-                        ),
+                        padding: const EdgeInsets.only(top: 18),
                         child: Text(
                           userData['username'],
                           style: const TextStyle(
@@ -211,9 +286,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: const EdgeInsets.only(
-                          top: 1,
-                        ),
+                        padding: const EdgeInsets.only(top: 1),
                         child: Text(
                           userData['bio'],
                         ),
@@ -280,7 +353,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Text(
             label,
             style: const TextStyle(
-              fontSize: 15,
+              fontSize: 18,
               fontWeight: FontWeight.w400,
               color: Colors.grey,
             ),

@@ -15,7 +15,7 @@ class UpdateProfilePicScreen extends StatefulWidget {
 }
 
 class _UpdateProfilePicScreenState extends State<UpdateProfilePicScreen> {
-  Uint8List _image = Uint8List(1);
+  Uint8List? _image;
 
   selectImage() async {
     Uint8List im = await pickImage(ImageSource.gallery);
@@ -46,7 +46,7 @@ class _UpdateProfilePicScreenState extends State<UpdateProfilePicScreen> {
                 borderColor: Colors.grey,
                 function: () async {
                   String photoUrl = await StorageMethods()
-                      .uploadImageToStorage('profilePics', _image, false);
+                      .uploadImageToStorage('profilePics', _image!, false);
                 },
                 text: "Onayla",
                 textColor: Colors.white)

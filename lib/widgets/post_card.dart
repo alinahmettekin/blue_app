@@ -4,6 +4,7 @@ import 'package:flutter_application/models/user.dart';
 import 'package:flutter_application/providers/user_provider.dart';
 import 'package:flutter_application/resources/firestore_methods.dart';
 import 'package:flutter_application/screens/comments_screen.dart';
+import 'package:flutter_application/screens/likes_screen.dart';
 import 'package:flutter_application/utils/colors.dart';
 import 'package:flutter_application/utils/global_variables.dart';
 import 'package:flutter_application/utils/utils.dart';
@@ -252,15 +253,21 @@ class _PostCardState extends State<PostCard> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                DefaultTextStyle(
+                TextButton(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          LikesPage(postId: widget.snap["postId"]),
+                    ),
+                  ),
+                  child: Text(
+                    '${widget.snap['likes'].length} beğeni',
                     style: Theme.of(context)
                         .textTheme
                         .titleSmall!
                         .copyWith(fontWeight: FontWeight.w800),
-                    child: Text(
-                      '${widget.snap['likes'].length} likes',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    )),
+                  ),
+                ),
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.only(

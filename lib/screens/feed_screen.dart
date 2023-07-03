@@ -24,7 +24,7 @@ class _FeedScreenState extends State<FeedScreen> {
       appBar: width > webScreenSize
           ? null
           : AppBar(
-              backgroundColor: Color.fromARGB(255, 56, 55, 55),
+              backgroundColor: const Color.fromARGB(255, 56, 55, 55),
               centerTitle: true,
               toolbarHeight: 50,
               title: SvgPicture.asset(

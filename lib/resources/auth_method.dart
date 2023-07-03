@@ -81,6 +81,7 @@ class AuthMethods {
           email: email,
           password: password,
         );
+
         res = "success";
       } else {
         res = "Please enter all the fields";
