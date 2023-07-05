@@ -9,7 +9,7 @@ Social Media Platform
 Download or clone this repo by using the link below:
 
 ```
-https://github.com/SDU-Bilgisayar-Muhendisligi/Blue
+https://github.com/SDU-Bilgisayar-Muhendisligi/Blue.git
 ```
 
 **Step 2:**
