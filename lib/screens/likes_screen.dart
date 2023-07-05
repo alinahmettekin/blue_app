@@ -10,7 +10,7 @@ class LikesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Beğenenler'),
+        title: const Text('Beğenenler'),
       ),
       body: FutureBuilder(
         future: FirebaseFirestore.instance
@@ -20,13 +20,13 @@ class LikesPage extends StatelessWidget {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           if (!snapshot.hasData || !snapshot.data!.exists) {
-            return Center(
+            return const Center(
               child: Text('Post bulunamadı.'),
             );
           }

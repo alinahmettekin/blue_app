@@ -99,8 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               children: [
                                 Row(
                                   mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Column(
                                       children: [
@@ -109,15 +108,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             TextButton(
                                               child: Text(
                                                 postLen.toString(),
-                                                style: TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20),
                                               ),
                                               onPressed: () {},
                                             ),
                                             Container(width: 8),
                                             TextButton(
                                               child: Text(followers.toString(),
-                                                  style:
-                                                      TextStyle(fontSize: 20)),
+                                                  style: const TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 20)),
                                               onPressed: () =>
                                                   Navigator.of(context).push(
                                                 MaterialPageRoute(
@@ -130,7 +132,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             TextButton(
                                               child: Text(
                                                 following.toString(),
-                                                style: TextStyle(fontSize: 20),
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20),
                                               ),
                                               onPressed: () =>
                                                   Navigator.of(context).push(

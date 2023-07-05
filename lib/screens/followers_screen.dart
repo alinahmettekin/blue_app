@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class FollowersPage extends StatelessWidget {
-  final String userID;
+  final String uid;
 
-  FollowersPage(this.userID);
+  FollowersPage(this.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +13,8 @@ class FollowersPage extends StatelessWidget {
         title: Text('Takipçiler'),
       ),
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc(userID)
-            .snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('users').doc(uid).snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
@@ -46,11 +44,11 @@ class FollowersPage extends StatelessWidget {
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
                   if (!snapshot.hasData || snapshot.hasError) {
-                    return Text('Bir hata oluştu');
+                    return const Text('Bir hata oluştu');
                   }
 
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
 
                   final String username = snapshot.data!.get('username');
